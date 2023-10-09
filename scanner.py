@@ -84,56 +84,109 @@ class Scanner:
                     lexema += c
 
             
-            elif self.estado == 1:
+            if estado == 1:
                 if c == '=':
-                    self.lexema += c
-                    self.add_token(self.get_tipo_token(TipoToken, "GREATER_EQUAL"), self.lexema)
+                    lexema += c
+                    t = Token(TipoToken.GREATER_EQUAL, lexema)
+                    self.tokens.append(t)
                 else:
-                    self.add_token(self.get_tipo_token(TipoToken, "GREATER"), self.lexema)
+                    t = Token(TipoToken.GREATER, lexema)
+                    self.tokens.append(t)
                     i -= 1
-                self.estado = 0
-                self.lexema = ""
-            elif self.estado == 4:
+                estado = 0
+                lexema = ""
+
+            if estado == 4:
                 if c == '=':
-                    self.lexema += c
-                    self.add_token(self.get_tipo_token(TipoToken, "LESS_EQUAL"), self.lexema)
+                    lexema += c
+                    t = Token(TipoToken.LESS_EQUAL, lexema)
+                    self.tokens.append(t)
                 else:
-                    self.add_token(self.get_tipo_token(TipoToken, "LESS"), self.lexema)
+                    t = Token(TipoToken.LESS, lexema)
+                    self.tokens.append(t)
                     i -= 1
-                self.estado = 0
-                self.lexema = ""
-            elif self.estado == 7:
+                estado = 0
+                lexema = ""
+
+            if estado == 7:
                 if c == '=':
-                    self.lexema += c
-                    self.add_token(self.get_tipo_token(TipoToken, "EQUAL_EQUAL"), self.lexema)
+                    lexema += c
+                    t = Token(TipoToken.EQUAL_EQUAL, lexema)
+                    self.tokens.append(t)
                 else:
-                    self.add_token(self.get_tipo_token(TipoToken, "EQUAL"), self.lexema)
+                    t = Token(TipoToken.EQUAL, lexema)
+                    self.tokens.append(t)
                     i -= 1
-                self.estado = 0
-                self.lexema = ""
-            elif self.estado == 10:
+                estado = 0
+                lexema = ""
+
+            if estado == 10:
                 if c == '=':
-                    self.lexema += c
-                    self.add_token(self.get_tipo_token(TipoToken, "BANG_EQUAL"), self.lexema)
+                    lexema += c
+                    t = Token(TipoToken.BANG_EQUAL, lexema)
+                    self.tokens.append(t)
                 else:
-                    self.add_token(self.get_tipo_token(TipoToken, "BANG"), self.lexema)
+                    t = Token(TipoToken.BANG, lexema)
+                    self.tokens.append(t)
                     i -= 1
-                self.estado = 0
-                self.lexema = ""
-            elif self.estado == 13:
-                if c.isalnum():
-                    self.lexema += c
+                estado = 0
+                lexema = ""
+
+            if estado == 13:
+                if c.isalpha() or c.isdigit():
+                    lexema += c
                 else:
-                    self.add_identifier_or_reserved_word_token(self.lexema)
-                    self.estado = 0
-                    self.lexema = ""
+                    tt = self.palabras_reservadas.get(lexema)
+                    if tt is None:
+                        t = Token(TipoToken.IDENTIFIER, lexema)
+                        self.tokens.append(t)
+                    else:
+                        t = Token(tt, lexema)
+                        self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
                     i -= 1
-            elif self.estado == 15:
+
+            if estado == 15:
                 if c.isdigit():
-                    self.lexema += c
+                    lexema += c
                 elif c == '.':
-                    self.estado = 16
-                    self.lexema += c
+                    estado = 16
+                    lexema += c
+                elif c == 'E':
+                    estado = 18
+                    lexema += c
+                else:
+                    t = Token(TipoToken.NUMBER, lexema, int(lexema))
+                    self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
+                    i -= 1
+
+            if estado == 16:
+                if c.isdigit():
+                    estado = 17
+                    lexema += c
+                else:
+                    self.reportar_error(linea, "Se esperaba un número para parte decimal")
+                    estado = -1
+
+            if estado == 17:
+                if c.isdigit():
+                    lexema += c
+                elif c == 'E':
+                    estado = 18
+                    lexema += c
+                else:
+                    t = Token(TipoToken.NUMBER, lexema, float(lexema))
+                    self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
+                    i -= 1
+
+
+
+                
                 elif c == 'E':
                     self.estado = 18
                     self.lexema += c
