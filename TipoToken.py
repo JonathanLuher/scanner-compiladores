@@ -37,3 +37,6 @@ class TipoToken(Enum):
     VAR = 34
     WHILE = 35
     EOF = 36
+
+class jeje():
+    print("hola mundo")
