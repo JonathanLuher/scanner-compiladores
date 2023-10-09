@@ -34,14 +34,6 @@ class Scanner:
     def __init__(self, source):
         self.source = source + " "
         self.tokens = []
-        self.lexema = ""
-        self.estado = 0
-        self.linea = 1
-        self.caracteres_especiales = set(["+", "-", "*", "{", "}", "(", ")", ",", ".", ";"])
-
-    def __init__(self, source):
-        self.source = source + " "
-        self.tokens = []
         self.caracteres = ["+", "-", "*", "{", "}", "(", ")", ",", ".", ";"]
         self.error = False
 
@@ -182,8 +174,8 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
-                
-               if estado == 18:
+
+            if estado == 18:
                 if c in ('+', '-'):
                     estado = 19
                     lexema += c
@@ -212,7 +204,7 @@ class Scanner:
                     lexema = ""
                     i -= 1
 
-           if estado == 24:
+            if estado == 24:
                 if c == '\n':
                     self.reportar_error(linea, "Se esperaban comillas para el cierre de la cadena")
                     estado = -1
