@@ -2,13 +2,14 @@ import sys
 from Scanner import Scanner
 
 def main():
-    if len(sys.argv) > 1 and sys.argv[1] == "Pruebas.txt":
+    if len(sys.argv) > 1:
+        archivo = sys.argv[1]
         try:
-            with open("Pruebas.txt", "r") as file:
+            with open(archivo, "r") as file:
                 source = file.read()
                 ejecutar(source)
         except FileNotFoundError:
-            print("El archivo 'pruebas.txt' no existe.")
+            print(f"El archivo '{archivo}' no existe.")
     else:
         ejecutar_terminal()
 
