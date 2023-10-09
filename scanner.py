@@ -39,40 +39,51 @@ class Scanner:
         self.linea = 1
         self.caracteres_especiales = set(["+", "-", "*", "{", "}", "(", ")", ",", ".", ";"])
 
-    def scan(self):
-        for i in range(len(self.source)):
-            c = self.source[i]
-            if i >= 1 and self.source[i - 1] == '\n':
-                self.linea += 1
+    def __init__(self, source):
+        self.source = source + " "
+        self.tokens = []
+        self.caracteres = ["+", "-", "*", "{", "}", "(", ")", ",", ".", ";"]
+        self.error = False
 
-            if self.estado == 0:
+    def scan(self):
+        lexema = ""
+        estado = 0
+        linea = 1
+
+        for i, c in enumerate(self.source):
+            if i >= 1 and self.source[i - 1] == '\n':
+                linea += 1
+
+            if estado == 0:
                 if c.isalpha():
-                    self.estado = 13
-                    self.lexema += c
+                    estado = 13
+                    lexema += c
                 elif c.isdigit():
-                    self.estado = 15
-                    self.lexema += c
+                    estado = 15
+                    lexema += c
                 elif c == '>':
-                    self.estado = 1
-                    self.lexema += c
+                    estado = 1
+                    lexema += c
                 elif c == '<':
-                    self.estado = 4
-                    self.lexema += c
+                    estado = 4
+                    lexema += c
                 elif c == '=':
-                    self.estado = 7
-                    self.lexema += c
+                    estado = 7
+                    lexema += c
                 elif c == '!':
-                    self.estado = 10
-                    self.lexema += c
+                    estado = 10
+                    lexema += c
                 elif c == '/':
-                    self.estado = 26
-                    self.lexema += c
+                    estado = 26
+                    lexema += c
                 elif c == '"':
-                    self.estado = 24
-                    self.lexema += c
-                elif c in self.caracteres_especiales:
-                    self.estado = 33
-                    self.lexema += c
+                    estado = 24
+                    lexema += c
+                elif c in self.caracteres:
+                    estado = 33
+                    lexema += c
+
+            
             elif self.estado == 1:
                 if c == '=':
                     self.lexema += c
