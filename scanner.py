@@ -1,42 +1,34 @@
-#this is the archive where we are doing the scanner
-class TipoToken:
-    def __init__(self, tipo):
-        self.tipo = tipo
-
-class Token:
-    def __init__(self, tipo, lexema, valor=None):
-        self.tipo = tipo
-        self.lexema = lexema
-        self.valor = valor
+from TipoToken import TipoToken
+from Token import Token
 
 class Scanner:
     palabras_reservadas = {
-        "and": TipoToken("AND"),
-        "else": TipoToken("ELSE"),
-        "false": TipoToken("FALSE"),
-        "for": TipoToken("FOR"),
-        "fun": TipoToken("FUN"),
-        "if": TipoToken("IF"),
-        "null": TipoToken("NULL"),
-        "or": TipoToken("OR"),
-        "print": TipoToken("PRINT"),
-        "return": TipoToken("RETURN"),
-        "true": TipoToken("TRUE"),
-        "var": TipoToken("VAR"),
-        "while": TipoToken("WHILE")
+        "and": TipoToken.AND,
+        "else": TipoToken.ELSE,
+        "false": TipoToken.FALSE,
+        "for": TipoToken.FOR,
+        "fun": TipoToken.FUN,
+        "if": TipoToken.IF,
+        "null": TipoToken.NULL,
+        "or": TipoToken.OR,
+        "print": TipoToken.PRINT,
+        "return": TipoToken.RETURN,
+        "true": TipoToken.TRUE,
+        "var": TipoToken.VAR,
+        "while": TipoToken.WHILE,
     }
 
     simbolos = {
-        "+": TipoToken("PLUS"),
-        "-": TipoToken("MINUS"),
-        "*": TipoToken("STAR"),
-        "{": TipoToken("LEFT_BRACE"),
-        "}": TipoToken("RIGHT_BRACE"),
-        "(": TipoToken("LEFT_PAREN"),
-        ")": TipoToken("RIGHT_PAREN"),
-        ",": TipoToken("COMMA"),
-        ".": TipoToken("DOT"),
-        ";": TipoToken("SEMICOLON"),
+        "+": TipoToken.PLUS,
+        "-": TipoToken.MINUS,
+        "*": TipoToken.STAR,
+        "{": TipoToken.LEFT_BRACE,
+        "}": TipoToken.RIGHT_BRACE,
+        "(": TipoToken.LEFT_PAREN,
+        ")": TipoToken.RIGHT_PAREN,
+        ",": TipoToken.COMMA,
+        ".": TipoToken.DOT,
+        ";": TipoToken.SEMICOLON,
     }
 
     def __init__(self, source):
