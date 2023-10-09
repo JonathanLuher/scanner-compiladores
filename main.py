@@ -4,12 +4,13 @@ import sys
 def ejecutar_archivo(path):
     try:
         with open(path, "r") as archivo:
-            source = archivo.read()
-            scanner = Scanner(source)
-            tokens = scanner.scan()
+            lineas = archivo.readlines()
+            for linea in lineas:
+                scanner = Scanner(linea)
+                tokens = scanner.scan()
 
-            for token in tokens:
-                print(token)
+                for token in tokens:
+                    print(token)
     except FileNotFoundError:
         print(f"No se pudo encontrar el archivo '{path}'")
 
@@ -23,5 +24,5 @@ def main():
     ejecutar_archivo("Pruebas.txt")
 
 if __name__ == "__main__":
-    main()
+    main() 
 
