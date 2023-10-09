@@ -218,57 +218,64 @@ class Scanner:
 
 
         
-            elif self.estado == 24:
+           if estado == 24:
                 if c == '\n':
-                    Main.error(self.linea, "Se esperaban comillas para el cierre de la cadena")
-                    self.estado = -1
+                    self.reportar_error(linea, "Se esperaban comillas para el cierre de la cadena")
+                    estado = -1
                 elif c == '"':
-                    self.lexema += c
-                    self.add_token(self.get_tipo_token(TipoToken, "STRING"), self.lexema)
-                    self.estado = 0
-                    self.lexema = ""
+                    lexema += c
+                    t = Token(TipoToken.STRING, lexema)
+                    self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
                 else:
-                    self.lexema += c
-            elif self.estado == 26:
-                if c == '*':
-                    self.estado = 27
-                elif c == '/':
-                    self.estado = 30
-                else:
-                    self.add_token(self.get_tipo_token(TipoToken, "SLASH"), self.lexema)
-                    self.estado = 0
-                    self.lexema = ""
-                    i -= 1
-            elif self.estado == 27:
-                if c == '*':
-                    self.estado = 28
-                else:
-                    self.estado = 27
-            elif self.estado == 28:
-                if c == '*':
-                    self.estado = 28
-                elif c == '/':
-                    self.estado = 0
-                    self.lexema = ""
-                else:
-                    self.estado = 27
-            elif self.estado == 30:
-                if c == '\n':
-                    self.estado = 0
-                    self.lexema = ""
-                else:
-                    self.estado = 30
-            elif self.estado == 33:
-                self.add_token(self.get_tipo_token(TipoToken, self.lexema), self.lexema)
-                self.estado = 0
-                self.lexema = ""
-                i -= 1
-            else:
-                Main.error(self.linea, "Error desconocido")
-                self.lexema = ""
+                    lexema += c
 
-            if self.estado == -1:
+            if estado == 26:
+                if c == '*':
+                    estado = 27
+                elif c == '/':
+                    estado = 30
+                else:
+                    t = Token(TipoToken.SLASH, lexema)
+                    self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
+                    i -= 1
+
+            if estado == 27:
+                if c == '*':
+                    estado = 28
+                else:
+                    estado = 27
+
+            if estado == 28:
+                if c == '*':
+                    estado = 28
+                elif c == '/':
+                    estado = 0
+                    lexema = ""
+                else:
+                    estado = 27
+
+            if estado == 30:
+                if c == '\n':
+                    estado = 0
+                    lexema = ""
+                else:
+                    estado = 30
+
+            if estado == 33:
+                tt = self.simbolos.get(lexema)
+                t = Token(tt, lexema)
+                self.tokens.append(t)
+                estado = 0
+                lexema = ""
+                i -= 1
+
+            if estado == -1:
                 break
+
 
         return self.tokens
 
