@@ -1,46 +1,39 @@
-class TipoToken:
-    # Tokens de un solo caracter
-    LEFT_PAREN = '('
-    RIGHT_PAREN = ')'
-    LEFT_BRACE = '{'
-    RIGHT_BRACE = '}'
-    COMMA = ','
-    DOT = '.'
-    MINUS = '-'
-    PLUS = '+'
-    SEMICOLON = ';'
-    SLASH = '/'
-    STAR = '*'
+from enum import Enum
 
-    # Tokens de uno o dos caracteres
-    BANG = '!'
-    BANG_EQUAL = '!='
-    EQUAL = '='
-    EQUAL_EQUAL = '=='
-    GREATER = '>'
-    GREATER_EQUAL = '>='
-    LESS = '<'
-    LESS_EQUAL = '<='
-    
-    # Literales
-    IDENTIFIER = 'IDENTIFIER'
-    STRING = 'STRING'
-    NUMBER = 'NUMBER'
-
-    # Palabras clave
-    AND = 'AND'
-    ELSE = 'ELSE'
-    FALSE = 'FALSE'
-    FUN = 'FUN'
-    FOR = 'FOR'
-    IF = 'IF'
-    NULL = 'NULL'
-    OR = 'OR'
-    PRINT = 'PRINT'
-    RETURN = 'RETURN'
-    TRUE = 'TRUE'
-    VAR = 'VAR'
-    WHILE = 'WHILE'
-
-    # EOF
-    EOF = 'EOF'
+class TipoToken(Enum):
+    LEFT_PAREN = 1
+    RIGHT_PAREN = 2
+    LEFT_BRACE = 3
+    RIGHT_BRACE = 4
+    COMMA = 5
+    DOT = 6
+    MINUS = 7
+    PLUS = 8
+    SEMICOLON = 9
+    SLASH = 10
+    STAR = 11
+    BANG = 12
+    BANG_EQUAL = 13
+    EQUAL = 14
+    EQUAL_EQUAL = 15
+    GREATER = 16
+    GREATER_EQUAL = 17
+    LESS = 18
+    LESS_EQUAL = 19
+    IDENTIFIER = 20
+    STRING = 21
+    NUMBER = 22
+    AND = 23
+    ELSE = 24
+    FALSE = 25
+    FUN = 26
+    FOR = 27
+    IF = 28
+    NULL = 29
+    OR = 30
+    PRINT = 31
+    RETURN = 32
+    TRUE = 33
+    VAR = 34
+    WHILE = 35
+    EOF = 36
