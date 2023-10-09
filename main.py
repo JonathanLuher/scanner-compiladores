@@ -1,28 +1,30 @@
-from Scanner import Scanner
 import sys
-
-def ejecutar_archivo(path):
-    try:
-        with open(path, "r") as archivo:
-            lineas = archivo.readlines()
-            for linea in lineas:
-                scanner = Scanner(linea)
-                tokens = scanner.scan()
-
-                for token in tokens:
-                    print(token)
-    except FileNotFoundError:
-        print(f"No se pudo encontrar el archivo '{path}'")
+from Scanner import Scanner
 
 def main():
-    existen_errores = False
+    if len(sys.argv) > 1 and sys.argv[1] == "Pruebas.txt":
+        try:
+            with open("Pruebas.txt", "r") as file:
+                source = file.read()
+                ejecutar(source)
+        except FileNotFoundError:
+            print("El archivo 'pruebas.txt' no existe.")
+    else:
+        ejecutar_terminal()
 
-    if len(sys.argv) != 1:
-        print("Uso correcto: Interprete")
-        sys.exit(64)
+def ejecutar(source):
+    scanner = Scanner(source)
+    tokens = scanner.scan()
 
-    ejecutar_archivo("Pruebas.txt")
+    for token in tokens:
+        print(token)
+
+def ejecutar_terminal():
+    while True:
+        source = input(">>> ")
+        if not source:
+            break
+        ejecutar(source)
 
 if __name__ == "__main__":
-    main() 
-
+    main()
