@@ -187,57 +187,37 @@ class Scanner:
 
 
                 
-                elif c == 'E':
-                    self.estado = 18
-                    self.lexema += c
-                else:
-                    self.add_token(self.get_tipo_token(TipoToken, "NUMBER"), self.lexema, int(self.lexema))
-                    self.estado = 0
-                    self.lexema = ""
-                    i -= 1
-            elif self.estado == 16:
-                if c.isdigit():
-                    self.estado = 17
-                    self.lexema += c
-                else:
-                    Main.error(self.linea, "Se esperaba un número para parte decimal")
-                    self.estado = -1
-            elif self.estado == 17:
-                if c.isdigit():
-                    self.lexema += c
-                elif c == 'E':
-                    self.estado = 18
-                    self.lexema += c
-                else:
-                    self.add_token(self.get_tipo_token(TipoToken, "NUMBER"), self.lexema, float(self.lexema))
-                    self.estado = 0
-                    self.lexema = ""
-                    i -= 1
-            elif self.estado == 18:
+               if estado == 18:
                 if c in ('+', '-'):
-                    self.estado = 19
-                    self.lexema += c
+                    estado = 19
+                    lexema += c
                 elif c.isdigit():
-                    self.estado = 20
-                    self.lexema += c
+                    estado = 20
+                    lexema += c
                 else:
-                    Main.error(self.linea, "Se esperaba un '+', un '-' o un número para exponente")
-                    self.estado = -1
-            elif self.estado == 19:
+                    self.reportar_error(linea, "Se esperaba un '+', un '-' o un número para exponente")
+                    estado = -1
+
+            if estado == 19:
                 if c.isdigit():
-                    self.estado = 20
-                    self.lexema += c
+                    estado = 20
+                    lexema += c
                 else:
-                    Main.error(self.linea, "Se esperaba un número para parte exponente")
-                    self.estado = -1
-            elif self.estado == 20:
+                    self.reportar_error(linea, "Se esperaba un número para parte exponente")
+                    estado = -1
+
+            if estado == 20:
                 if c.isdigit():
-                    self.lexema += c
+                    lexema += c
                 else:
-                    self.add_token(self.get_tipo_token(TipoToken, "NUMBER"), self.lexema, float(self.lexema))
-                    self.estado = 0
-                    self.lexema = ""
+                    t = Token(TipoToken.NUMBER, lexema, float(lexema))
+                    self.tokens.append(t)
+                    estado = 0
+                    lexema = ""
                     i -= 1
+
+
+        
             elif self.estado == 24:
                 if c == '\n':
                     Main.error(self.linea, "Se esperaban comillas para el cierre de la cadena")
