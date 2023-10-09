@@ -83,7 +83,6 @@ class Scanner:
                     estado = 33
                     lexema += c
 
-            
             if estado == 1:
                 if c == '=':
                     lexema += c
@@ -183,9 +182,6 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
-
-
-
                 
                if estado == 18:
                 if c in ('+', '-'):
@@ -216,8 +212,6 @@ class Scanner:
                     lexema = ""
                     i -= 1
 
-
-        
            if estado == 24:
                 if c == '\n':
                     self.reportar_error(linea, "Se esperaban comillas para el cierre de la cadena")
@@ -276,38 +270,8 @@ class Scanner:
             if estado == -1:
                 break
 
-
         return self.tokens
 
-    def add_token(self, tipo, lexema, valor=None):
-        self.tokens.append(Token(tipo, lexema, valor))
-
-    def add_identifier_or_reserved_word_token(self, lexema):
-        tt = Scanner.palabras_reservadas.get(lexema)
-        if tt is None:
-            self.add_token(TipoToken("IDENTIFIER"), lexema)
-        else:
-            self.add_token(tt, lexema)
-    
-    @staticmethod
-    def get_tipo_token(clase_tipo_token, tipo):
-        return getattr(clase_tipo_token, tipo)
-
-class Main:
-    @staticmethod
-    def error(linea, mensaje):
-        print(f"Error en línea {linea}: {mensaje}")
-
-# Uso del escáner
-codigo_fuente = """
-if x > 5:
-    print("Mayor que 5")
-else:
-    print("Menor o igual que 5")
-"""
-
-scanner = Scanner(codigo_fuente)
-tokens = scanner.scan()
-
-for token in tokens:
-    print(f"Tipo: {token.tipo.tipo}, Lexema: {token.lexema}, Valor: {token.valor}")
+    def reportar_error(self, linea, mensaje):
+        print(f"[linea {linea}] Error: {mensaje}")
+        self.error = True
