@@ -267,3 +267,4 @@ class Scanner:
     def reportar_error(self, linea, mensaje):
         print(f"[linea {linea}] Error: {mensaje}")
         self.error = True
+print("hola")
