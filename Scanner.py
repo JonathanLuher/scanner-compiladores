@@ -74,6 +74,7 @@ class Scanner:
                 elif c in self.caracteres:
                     estado = 33
                     lexema += c
+                continue
 
             if estado == 1:
                 if c == '=':
@@ -86,6 +87,7 @@ class Scanner:
                     i -= 1
                 estado = 0
                 lexema = ""
+                continue
 
             if estado == 4:
                 if c == '=':
@@ -98,6 +100,7 @@ class Scanner:
                     i -= 1
                 estado = 0
                 lexema = ""
+                continue
 
             if estado == 7:
                 if c == '=':
@@ -110,6 +113,7 @@ class Scanner:
                     i -= 1
                 estado = 0
                 lexema = ""
+                continue
 
             if estado == 10:
                 if c == '=':
@@ -122,6 +126,7 @@ class Scanner:
                     i -= 1
                 estado = 0
                 lexema = ""
+                continue
 
             if estado == 13:
                 if c.isalpha() or c.isdigit():
@@ -137,6 +142,8 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
+                    continue
+                continue
 
             if estado == 15:
                 if c.isdigit():
@@ -153,6 +160,7 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
+                continue
 
             if estado == 16:
                 if c.isdigit():
@@ -161,6 +169,7 @@ class Scanner:
                 else:
                     self.reportar_error(linea, "Se esperaba un número para parte decimal")
                     estado = -1
+                continue
 
             if estado == 17:
                 if c.isdigit():
@@ -174,6 +183,7 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
+                continue
 
             if estado == 18:
                 if c in ('+', '-'):
@@ -185,6 +195,7 @@ class Scanner:
                 else:
                     self.reportar_error(linea, "Se esperaba un '+', un '-' o un número para exponente")
                     estado = -1
+                continue
 
             if estado == 19:
                 if c.isdigit():
@@ -193,6 +204,7 @@ class Scanner:
                 else:
                     self.reportar_error(linea, "Se esperaba un número para parte exponente")
                     estado = -1
+                continue
 
             if estado == 20:
                 if c.isdigit():
@@ -203,6 +215,7 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
+                continue
 
             if estado == 24:
                 if c == '\n':
@@ -216,6 +229,7 @@ class Scanner:
                     lexema = ""
                 else:
                     lexema += c
+                continue
 
             if estado == 26:
                 if c == '*':
@@ -228,12 +242,14 @@ class Scanner:
                     estado = 0
                     lexema = ""
                     i -= 1
+                continue
 
             if estado == 27:
                 if c == '*':
                     estado = 28
                 else:
                     estado = 27
+                continue
 
             if estado == 28:
                 if c == '*':
@@ -243,6 +259,7 @@ class Scanner:
                     lexema = ""
                 else:
                     estado = 27
+                continue
 
             if estado == 30:
                 if c == '\n':
@@ -250,6 +267,7 @@ class Scanner:
                     lexema = ""
                 else:
                     estado = 30
+                continue
 
             if estado == 33:
                 tt = self.simbolos.get(lexema)
@@ -258,6 +276,7 @@ class Scanner:
                 estado = 0
                 lexema = ""
                 i -= 1
+            continue
 
             if estado == -1:
                 break
